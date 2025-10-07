@@ -856,7 +856,7 @@
     <div class="access-denied-content">
       <h1>Access Restricted</h1>
       <p>This content is only available to visitors referred from our partner website. Please complete verification to access premium channels.</p>
-      <a href="https://vplink.in/GaNi" target="_blank">Complete Verification</a>
+      <a href="https://vplink.in/GaNi" target="_blank" id="verifyLink">Complete Verification</a>
     </div>
   </div>
 
@@ -983,7 +983,7 @@
   </div>
 
   <script>
-    // SIMPLE FIXED DOMAIN CHECKING
+    // Enhanced Access Control System
     function checkAccess() {
       // Get the current URL parameters
       const urlParams = new URLSearchParams(window.location.search);
@@ -992,22 +992,40 @@
       console.log('Referrer:', referrer);
       console.log('URL Params:', urlParams.toString());
       
+      // Check if user is already verified (stored in localStorage)
+      const storedVerification = localStorage.getItem('matcheslinks_verified');
+      const verificationExpiry = localStorage.getItem('matcheslinks_expiry');
+      
+      console.log('Stored verification:', storedVerification);
+      console.log('Verification expiry:', verificationExpiry);
+      
       // ALLOW ACCESS IF:
       // 1. Coming from vplink.in domain
       // 2. Has specific URL parameter (for testing)
       // 3. Is localhost (for development)
+      // 4. Has valid stored verification that hasn't expired
       
       const isFromVplink = referrer && referrer.includes('vplink.in');
       const hasAccessParam = urlParams.has('access') || urlParams.has('verified');
       const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const hasValidVerification = storedVerification === 'true' && 
+                                  verificationExpiry && 
+                                  Date.now() < parseInt(verificationExpiry);
       
       console.log('From vplink:', isFromVplink);
       console.log('Has access param:', hasAccessParam);
       console.log('Is localhost:', isLocalhost);
+      console.log('Has valid verification:', hasValidVerification);
       
-      if (isFromVplink || hasAccessParam || isLocalhost) {
+      if (isFromVplink || hasAccessParam || isLocalhost || hasValidVerification) {
         // GRANT ACCESS
         console.log('ACCESS GRANTED');
+        
+        // If coming from vplink or has access param, store verification
+        if ((isFromVplink || hasAccessParam) && !hasValidVerification) {
+          storeVerification();
+        }
+        
         document.getElementById('accessDenied').classList.add('hidden');
         document.getElementById('mainContent').classList.remove('hidden');
         startVerificationCountdown();
@@ -1020,6 +1038,14 @@
       }
     }
 
+    // Store verification status in localStorage
+    function storeVerification() {
+      const expiryTime = Date.now() + (24 * 60 * 60 * 1000); // 24 hours from now
+      localStorage.setItem('matcheslinks_verified', 'true');
+      localStorage.setItem('matcheslinks_expiry', expiryTime.toString());
+      console.log('Verification stored until:', new Date(expiryTime));
+    }
+
     // Start verification countdown (24 hours)
     function startVerificationCountdown() {
       const verificationCountdown = document.getElementById('verificationCountdown');
@@ -1028,19 +1054,26 @@
       // Show the countdown element
       verificationCountdown.classList.add('visible');
       
-      // Set the countdown time (24 hours in milliseconds)
-      const countdownTime = 24 * 60 * 60 * 1000; // 24 hours
-      let remainingTime = countdownTime;
+      // Get expiry time from localStorage or set new one
+      let expiryTime = localStorage.getItem('matcheslinks_expiry');
+      if (!expiryTime) {
+        expiryTime = Date.now() + (24 * 60 * 60 * 1000);
+        localStorage.setItem('matcheslinks_expiry', expiryTime.toString());
+      }
       
       // Update the countdown every second
       const countdownInterval = setInterval(() => {
-        remainingTime -= 1000;
+        const remainingTime = parseInt(expiryTime) - Date.now();
         
         if (remainingTime <= 0) {
           // Countdown finished
           clearInterval(countdownInterval);
           verificationCountdown.classList.add('danger');
           countdownText.textContent = 'Verification Expired!';
+          
+          // Clear verification status
+          localStorage.removeItem('matcheslinks_verified');
+          localStorage.removeItem('matcheslinks_expiry');
           
           // Show access denied and hide main content
           document.getElementById('accessDenied').classList.remove('hidden');
@@ -1051,7 +1084,7 @@
           accessDeniedContent.innerHTML = `
             <h1>Verification Expired</h1>
             <p>Your 24-hour access has ended. Please complete verification again to regain access to premium channels.</p>
-            <a href="https://vplink.in/GaNi" target="_blank">Complete Verification Again</a>
+            <a href="https://vplink.in/GaNi" target="_blank" id="verifyLink">Complete Verification Again</a>
           `;
         } else {
           // Update countdown display
@@ -1109,14 +1142,13 @@
       });
     }
 
-    // Channel Data from your indexxxx.html
+    // Channel Data
     const liveEvents = [
       {
         name: "Jaipur Pink Panthers Vs Dabang Delhi (English)",
         logo: "https://img10.hotstar.com/image/upload/f_auto,q_90,w_1920/sources/r1/cms/prod/9444/1759670569444-i",
         url: "https://matcheslinks-763.pages.dev/ss2hd",
         live: true,
-        openInNewTab: false,
         upcoming: true,
         unlockTime: new Date("2025-10-06T19:30:00+05:30").getTime(),
       },
@@ -1125,25 +1157,6 @@
         logo: "https://img10.hotstar.com/image/upload/f_auto,q_90,w_1920/sources/r1/cms/prod/9444/1759670569444-i",
         url: "https://matcheslinks-763.pages.dev/sshindi1hd",
         live: true,
-        openInNewTab: false,
-        upcoming: true,
-        unlockTime: new Date("2025-10-06T19:30:00+05:30").getTime(),
-      },
-      {
-        name: "Jaipur Pink Panthers Vs Dabang Delhi (Telugu)",
-        logo: "https://img10.hotstar.com/image/upload/f_auto,q_90,w_1920/sources/r1/cms/prod/9444/1759670569444-i",
-        url: "https://matcheslinks-763.pages.dev//ss2telgu",
-        live: true,
-        openInNewTab: false,
-        upcoming: true,
-        unlockTime: new Date("2025-10-06T19:30:00+05:30").getTime(),
-      },
-      {
-        name: "Jaipur Pink Panthers Vs Dabang Delhi (Tamil)",
-        logo: "https://img10.hotstar.com/image/upload/f_auto,q_90,w_1920/sources/r1/cms/prod/9444/1759670569444-i",
-        url: "https://matcheslinks-763.pages.dev//ss1tamil",
-        live: true,
-        openInNewTab: false,
         upcoming: true,
         unlockTime: new Date("2025-10-06T19:30:00+05:30").getTime(),
       }
@@ -1161,339 +1174,14 @@
         url: "https://mpd-player-ivory.vercel.app/?id=usawest"
       },
       {
-        name: "Universo East",
-        logo: "https://static.wikia.nocookie.net/logopedia/images/2/20/Universo_social_media_icon.jpg",
-        url: "https://mpd-player-ivory.vercel.app/?id=Universoeast"
-      },
-      {
-        name: "Universo West",
-        logo: "https://static.wikia.nocookie.net/logopedia/images/2/20/Universo_social_media_icon.jpg",
-        url: "https://mpd-player-ivory.vercel.app/?id=Universowest"
-      },
-      {
-        name: "PREMIERE",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2EEWVCQOoxt25cbgG1bTNeQirzrSFo73WnDlEqAdAciBS4fa92a6zb8cG&s=10",
-        url: "https://mpd-player-ivory.vercel.app/?id=PREMIERE"
-      },
-      {
-        name: "CBS",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaRn8jrZJuviL_R18LlX2vVcmugS_nud-tCOHGsa7zzLrrgrAujcovmmI&s=10",
-        url: "https://mpd-player-ivory.vercel.app/?id=cbs"
-      },
-      {
-        name: "NFl",
-        logo: "https://static.www.nfl.com/image/private/f_auto/league/khjxu70iiu14uvxridek",
-        url: "https://mpd-player-ivory.vercel.app/?id=nfl"
-      },
-      {
-        name: "Fancode Videos",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwecamCNkhOd40wQVfMtI7h-p9T_UOFKoXZ3tRMHyXW-exrgzC8SYREfw&s=10",
-        url: "https://mpd-player-ivory.vercel.app/?id=fancodevideos"
-      },
-      {
-        name: "DAZN Events",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLwPuwgMEOUaWB6VDltQNQf-n0AXPCX1rprg&s",
-        url: "https://mpd-player-ivory.vercel.app/?id=DAZN"
-      },
-      {
-        name: "BEIN 1",
-        logo: "data:image/png;base64,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",
-        url: "https://mpd-player-ivory.vercel.app/?id=Bein1"
-      },
-      {
-        name: "BEIN 2",
-        logo: "data:image/png;base64,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",
-        url: "https://mpd-player-ivory.vercel.app/?id=bein2"
-      },
-      {
-        name: "BEIN 3",
-        logo: "data:image/png;base64,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",
-        url: "https://mpd-player-ivory.vercel.app/?id=bein3"
-      },
-      {
-        name: "Sportv",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyjDUIwpUYLH0zRNH5ehUWe2x5AxLuct4JU6sDmMHN-Zd6_iP0zN22oZY&s=10",
-        url: "https://mpd-player-ivory.vercel.app/?id=sportv"
-      },
-      {
-        name: "1 MEDIASET HD",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0Oo0YPM9Oaxah7WWSC9OXd39C7WcYlKkPTGS4RF6CFQ&s",
-        url: "https://mpd-player-ivory.vercel.app/?id=MEDIASET1"
-      },
-      {
-        name: "UFC",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_e9sy7xqbqp0ZqoiXnoMPhVhGEW8CVzcYUXclaFHNrF9lWhc4PZhHfsgP&s=10",
-        url: "https://mpd-player-ivory.vercel.app/?id=ufc"
-      },
-      {
         name: "ESPN 1",
         logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzmd4mg7ei0TS3GHwc9prZkTMG6pxDZkuZpw&usqp=CAU",
         url: "https://mpd-player-ivory.vercel.app/?id=ESPN1"
       },
       {
-        name: "ESPN 2",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzmd4mg7ei0TS3GHwc9prZkTMG6pxDZkuZpw&usqp=CAU",
-        url: "https://mpd-player-ivory.vercel.app/?id=ESPN2"
-      },
-      {
-        name: "ESPN 3",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzmd4mg7ei0TS3GHwc9prZkTMG6pxDZkuZpw&usqp=CAU",
-        url: "https://mpd-player-ivory.vercel.app/?id=ESPN3"
-      },
-      {
-        name: "ESPN 4",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzmd4mg7ei0TS3GHwc9prZkTMG6pxDZkuZpw&usqp=CAU",
-        url: "https://mpd-player-ivory.vercel.app/?id=ESPN4"
-      },
-      {
         name: "Sky Sports",
         logo: "https://static.skyassets.com/contentstack/assets/blt4b099fa9cc3801a6/blt9c3c0a116b7aa87b/68b6f3d3c53b042695f96c48/Sky-sports-primary-tile.jpg?downsize=320,640:*&output-format=jpg",
         url: "https://mpd-player-ivory.vercel.app/?id=SKYSPORTS"
-      },
-      {
-        name: "Sky Sports 2",
-        logo: "https://static.skyassets.com/contentstack/assets/blt4b099fa9cc3801a6/blt9c3c0a116b7aa87b/68b6f3d3c53b042695f96c48/Sky-sports-primary-tile.jpg?downsize=320,640:*&output-format=jpg",
-        url: "https://mpd-player-ivory.vercel.app/?id=SKYSPORTS2"
-      },
-      {
-        name: "Sky Events 1",
-        logo: "https://static.skyassets.com/contentstack/assets/blt4b099fa9cc3801a6/blt9c3c0a116b7aa87b/68b6f3d3c53b042695f96c48/Sky-sports-primary-tile.jpg?downsize=320,640:*&output-format=jpg",
-        url: "https://mpd-player-ivory.vercel.app/?id=SKYSPORTS_LIVE1"
-      },
-      {
-        name: "Sky Events 2",
-        logo: "https://static.skyassets.com/contentstack/assets/blt4b099fa9cc3801a6/blt9c3c0a116b7aa87b/68b6f3d3c53b042695f96c48/Sky-sports-primary-tile.jpg?downsize=320,640:*&output-format=jpg",
-        url: "https://mpd-player-ivory.vercel.app/?id=SKYSPORTS_LIVE2"
-      },
-      {
-        name: "Sky Events 4",
-        logo: "https://static.skyassets.com/contentstack/assets/blt4b099fa9cc3801a6/blt9c3c0a116b7aa87b/68b6f3d3c53b042695f96c48/Sky-sports-primary-tile.jpg?downsize=320,640:*&output-format=jpg",
-        url: "https://mpd-player-ivory.vercel.app/?id=SKYSPORTS_LIVE4"
-      },
-      {
-        name: "FOX SPORTS",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1GQorPxz3DKLeC8j85LDhAmIh53v_USxxyw&usqp=CAU",
-        url: "https://mpd-player-ivory.vercel.app/?id=FOXSPORTS"
-      },
-      {
-        name: "FOX SPORTS 2",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1GQorPxz3DKLeC8j85LDhAmIh53v_USxxyw&usqp=CAU",
-        url: "https://mpd-player-ivory.vercel.app/?id=FOXSPORTS2"
-      },
-      {
-        name: "FOX SPORTS 3",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1GQorPxz3DKLeC8j85LDhAmIh53v_USxxyw&usqp=CAU",
-        url: "https://mpd-player-ivory.vercel.app/?id=FOXSPORTS3"
-      },
-      {
-        name: "FOX SPORTS PRENIUM",
-        logo: "https://upload.wikimedia.org/wikipedia/commons/f/f2/Fox_Sports_Premium_%28Argentina%29_-_2018_logo.png",
-        url: "https://mpd-player-ivory.vercel.app/?id=FOXSPORTS_PREMIUM"
-      },
-      {
-        name: "Fubo Sports",
-        logo: "https://images.fubo.tv/station_logos/fubo-sports23_m.png",
-        url: "https://mpd-player-ivory.vercel.app/?id=fubo"
-      },
-      {
-        name: "SKY SPORTS LALIGA",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQh1IoJO-olMV3VE5nHDw1NU8ExocnQS-wVwScHAwBbHjDSwaouUvu5eKb17DzuBUw98w&usqp=CAU",
-        url: "https://mpd-player-ivory.vercel.app/?id=SKYSPORTS_LALIGA"
-      },
-      {
-        name: "SKY SPORTS BUNDESLIGA",
-        logo: "https://pbs.twimg.com/media/FYjlInYXEAIfUAT.jpg:large",
-        url: "https://mpd-player-ivory.vercel.app/?id=SKYSPORTS_BUDESLIGA"
-      },
-      {
-        name: "SKY SPORTS BUNDESLIGA 2",
-        logo: "https://pbs.twimg.com/media/FYjlInYXEAIfUAT.jpg:large",
-        url: "https://mpd-player-ivory.vercel.app/?id=SKYSPORTS_BUDESLIGA2"
-      },
-      {
-        name: "REAL MADRID TV",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS95_GnP3XFTnrRGkU_XHi_UcoEwc92sLJmcg&s",
-        url: "https://jolly-treacle-7b99e0.netlify.app/"
-      },
-      {
-        name: "LALIGA TV",
-        logo: "https://pbs.twimg.com/profile_images/1747989339764572160/7nxm03-2_200x200.jpg",
-        url: "https://mpd-player-ivory.vercel.app/?id=laligatv"
-      },
-      {
-        name: "ZIGGO SPORTS 1",
-        logo: "https://www.planetzone.nl/wp-content/uploads/ziggosport.png",
-        url: "https://mpd-player-ivory.vercel.app/?id=ZIGGO1"
-      },
-      {
-        name: "ZIGGO SPORTS 2",
-        logo: "https://www.planetzone.nl/wp-content/uploads/ziggosport.png",
-        url: "https://mpd-player-ivory.vercel.app/?id=ZIGGO2"
-      },
-      {
-        name: "ZIGGO SPORTS 3",
-        logo: "https://www.planetzone.nl/wp-content/uploads/ziggosport.png",
-        url: "https://mpd-player-ivory.vercel.app/?id=ZIGGO3"
-      },
-      {
-        name: "SETANTA SPORTS 1",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5xJaiqYiIsDSicE9-grMxbKmjNC0kH8edLQ&s",
-        url: "https://mpd-player-ivory.vercel.app/?id=SETANTASPORTS1"
-      },
-      {
-        name: "TSN 1",
-        logo: "data:image/png;base64,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",
-        url: "https://fluffy-cucurucho-df41e4.netlify.app/"
-      },
-      {
-        name: "TSN 2",
-        logo: "https://play-lh.googleusercontent.com/Wfh4tn-kWAGTUIMxVgyZ1g2BEHrdDtjyXwUdqJLwX6w640Lc3DJoLoZqoCSEbYWpTw",
-        url: "https://calm-croissant-12afd7.netlify.app/"
-      },
-      {
-        name: "TSN 3",
-        logo: "https://play-lh.googleusercontent.com/Wfh4tn-kWAGTUIMxVgyZ1g2BEHrdDtjyXwUdqJLwX6w640Lc3DJoLoZqoCSEbYWpTw",
-        url: "https://lustrous-liger-25782c.netlify.app/"
-      },
-      {
-        name: "TSN 4",
-        logo: "https://play-lh.googleusercontent.com/Wfh4tn-kWAGTUIMxVgyZ1g2BEHrdDtjyXwUdqJLwX6w640Lc3DJoLoZqoCSEbYWpTw",
-        url: "https://superlative-alfajores-6896d4.netlify.app/"
-      },
-      {
-        name: "TSN 5",
-        logo: "https://play-lh.googleusercontent.com/Wfh4tn-kWAGTUIMxVgyZ1g2BEHrdDtjyXwUdqJLwX6w640Lc3DJoLoZqoCSEbYWpTw",
-        url: "https://imaginative-donut-233620.netlify.app/"
-      },
-      {
-        name: "TNT SPORTS 1",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI2NSvkyk8Fx2UMBXFdEXS36TNepD6Uy8pMQveJnYRbDnXedcg2tttKHz3&s=10",
-        url: "https://mpd-player-ivory.vercel.app/?id=TNT_1_GB"
-      },
-      {
-        name: "TNT SPORTS 2",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI2NSvkyk8Fx2UMBXFdEXS36TNepD6Uy8pMQveJnYRbDnXedcg2tttKHz3&s=10",
-        url: "https://mpd-player-ivory.vercel.app/?id=TNT_2_GB"
-      },
-      {
-        name: "TNT SPORTS 3",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI2NSvkyk8Fx2UMBXFdEXS36TNepD6Uy8pMQveJnYRbDnXedcg2tttKHz3&s=10",
-        url: "https://mpd-player-ivory.vercel.app/?id=TNT_3_GB"
-      },
-      {
-        name: "TNT SPORTS 4",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI2NSvkyk8Fx2UMBXFdEXS36TNepD6Uy8pMQveJnYRbDnXedcg2tttKHz3&s=10",
-        url: "https://mpd-player-ivory.vercel.app/?id=TNT_4_GB"
-      },
-      {
-        name: "SSC 1",
-        logo: "https://images.seeklogo.com/logo-png/49/1/ssc-tv-logo-png_seeklogo-498010.png",
-        url: "https://gleaming-meringue-fba932.netlify.app/"
-      },
-      {
-        name: "SSC 2",
-        logo: "https://images.seeklogo.com/logo-png/49/1/ssc-tv-logo-png_seeklogo-498010.png",
-        url: "https://nimble-belekoy-a83e0c.netlify.app/"
-      },
-      {
-        name: "SSC 3",
-        logo: "https://images.seeklogo.com/logo-png/49/1/ssc-tv-logo-png_seeklogo-498010.png",
-        url: "https://shimmering-choux-f6c58c.netlify.app/"
-      },
-      {
-        name: "SSC 4",
-        logo: "https://images.seeklogo.com/logo-png/49/1/ssc-tv-logo-png_seeklogo-498010.png",
-        url: "https://courageous-longma-8f0f4c.netlify.app/"
-      },
-      {
-        name: "SSC 5",
-        logo: "https://images.seeklogo.com/logo-png/49/1/ssc-tv-logo-png_seeklogo-498010.png",
-        url: "https://mellifluous-donut-5c4b44.netlify.app/"
-      },
-      {
-        name: "SSC EXTRA 1",
-        logo: "https://images.seeklogo.com/logo-png/49/1/ssc-tv-logo-png_seeklogo-498010.png",
-        url: "https://ornate-tiramisu-95d7cc.netlify.app/"
-      },
-      {
-        name: "SSC EXTRA 2",
-        logo: "https://images.seeklogo.com/logo-png/49/1/ssc-tv-logo-png_seeklogo-498010.png",
-        url: "https://delightful-youtiao-330cfd.netlify.app/"
-      },
-      {
-        name: "SSC EXTRA 3",
-        logo: "https://images.seeklogo.com/logo-png/49/1/ssc-tv-logo-png_seeklogo-498010.png",
-        url: "https://sparkly-scone-29fbd8.netlify.app/"
-      },
-      {
-        name: "Astro Sports Plus",
-        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Astro_Sports_Plus_%282024%29.png/960px-Astro_Sports_Plus_%282024%29.png",
-        url: "https://astro-sports-plus.vercel.app/"
-      },
-      {
-        name: "Astro Sports UHD",
-        logo: "https://upload.wikimedia.org/wikipedia/commons/b/bf/Astro_Sports_UHD_1_%282024%29.png",
-        url: "https://astro-uhd.vercel.app/"
-      },
-      {
-        name: "SONY TEN 1 HD (Use In Full Screen)",
-        logo: "https://jiotvimages.cdn.jio.com/dare_images/images/Ten_HD.png",
-        url: "https://sonyten1.vercel.app"
-      },
-      {
-        name: "SONY TEN 2 HD (Use In Full Screen)",
-        logo: "https://jiotvimages.cdn.jio.com/dare_images/images/Ten2_HD.png",
-        url: "https://sonyten2-drab.vercel.app/"
-      },
-      {
-        name: "SONY TEN 3 HD (Use In Full Screen)",
-        logo: "https://jiotvimages.cdn.jio.com/dare_images/images/Ten3_HD.png",
-        url: "https://sonyten3-343g.vercel.app/"
-      },
-      {
-        name: "SONY TEN 5 HD (Use In Full Screen)",
-        logo: "https://jiotvimages.cdn.jio.com/dare_images/images/Six_HD.png",
-        url: "https://sonyten5.vercel.app/"
-      },
-      {
-        name: "Star Sports 1 Tamil HD",
-        logo: "https://jiotvimages.cdn.jio.com/dare_images/images/Star_Sports_1_Tamil.png",
-        url: "https://matcheslinkss.pages.dev/ss1tamil"
-      },
-      {
-        name: "Star Sports 2 Telgu HD",
-        logo: "https://jiotvimages.cdn.jio.com/dare_images/images/Star_Sports_1_Tamil.png",
-        url: "https://matcheslinkss.pages.dev/ss2telugu"
-      },
-      {
-        name: "Star Sports 1 HD (ios)",
-        logo: "https://jiotvimages.cdn.jio.com/dare_images/images/Star_Sports_1.png",
-        url: "https://css-player.vercel.app/?url=https://live.dinesh29.com.np/stream/jiotvplus/starsportshd1/stream_0.m3u8?uid=2988702312"
-      },
-      {
-        name: "Star Sports 1 HD",
-        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Star_Sports_1_HD.png/2560px-Star_Sports_1_HD.png",
-        url: "https://matcheslinkss.pages.dev/ss1hd"
-      },
-      {
-        name: "Star Sports 2 HD",
-        logo: "https://jiotvimages.cdn.jio.com/dare_images/images/Star_Sports_2.png",
-        url: "https://matcheslinkss.pages.dev/ss2hd"
-      },
-      {
-        name: "Star Sports 2 HD (ios)",
-        logo: "https://jiotvimages.cdn.jio.com/dare_images/images/Star_Sports_2.png",
-        url: "https://css-player.vercel.app/?url=https://live.dinesh29.com.np/stream/jiotvplus/starsportshd2/master.m3u8"
-      },
-      {
-        name: "Star Sports 1 Hindi HD",
-        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Star_Sports_1_HD.png/2560px-Star_Sports_1_HD.png",
-        url: "https://matcheslinkss.pages.dev/sshindi1hd"
-      },
-      {
-        name: "Star Sports 1 Hindi HD (ios)",
-        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Star_Sports_1_HD.png/2560px-Star_Sports_1_HD.png",
-        url: "https://css-player.vercel.app/?url=https://live.dinesh29.com.np/stream/jiotvplus/starsportshd1hindi/master.m3u8"
       }
     ];
 
