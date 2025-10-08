@@ -8,8 +8,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* Your existing CSS remains the same */
     :root {
+      /* Enhanced Color System */
       --primary: 264, 83%, 75%;
       --primary-dark: 264, 83%, 65%;
       --primary-light: 264, 83%, 85%;
@@ -18,25 +18,38 @@
       --success: 142, 76%, 36%;
       --danger: 0, 84%, 60%;
       --warning: 38, 92%, 50%;
+      
+      /* Background System */
       --background: 225, 25%, 8%;
       --background-secondary: 225, 25%, 12%;
       --surface: 225, 25%, 15%;
       --surface-hover: 225, 25%, 20%;
+      
+      /* Text Colors */
       --foreground: 210, 20%, 98%;
       --foreground-secondary: 217, 11%, 85%;
       --foreground-muted: 217, 11%, 65%;
+      
+      /* Glass Effects */
       --glass-bg: rgba(255, 255, 255, 0.05);
       --glass-border: rgba(255, 255, 255, 0.1);
       --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      
+      /* Gradients */
       --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(282, 83%, 65%));
       --gradient-surface: linear-gradient(135deg, hsl(var(--surface)), hsl(225, 25%, 18%));
       --gradient-hero: linear-gradient(135deg, hsla(var(--primary), 0.1), hsla(282, 83%, 65%, 0.1));
+      
+      /* Shadows */
       --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
       --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.3);
       --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.4);
       --shadow-glow: 0 0 40px hsla(var(--primary), 0.3);
+      
+      /* Animation */
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       --transition-fast: all 0.2s ease-out;
+      --bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
     
     .light {
@@ -52,6 +65,7 @@
       --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
     
+    /* Reset & Base */
     * {
       margin: 0;
       padding: 0;
@@ -68,8 +82,10 @@
       transition: var(--transition);
       touch-action: manipulation;
       line-height: 1.6;
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     }
     
+    /* Animated Background */
     body::before {
       content: '';
       position: fixed;
@@ -88,6 +104,13 @@
     @keyframes backgroundShift {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.8; }
+    }
+    
+    /* Utility Classes */
+    .blur-background {
+      filter: blur(10px);
+      pointer-events: none;
+      user-select: none;
     }
     
     .glass {
@@ -110,65 +133,7 @@
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
     }
     
-    #accessDenied {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: hsl(var(--background));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      padding: 2rem;
-    }
-    
-    .access-denied-content {
-      max-width: 600px;
-      text-align: center;
-      background: var(--glass-heavy);
-      padding: 3rem;
-      border-radius: 1.5rem;
-      box-shadow: var(--shadow-lg);
-      border: 1px solid var(--glass-border);
-    }
-    
-    .access-denied-content h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: 1.5rem;
-      color: hsl(var(--danger));
-    }
-    
-    .access-denied-content p {
-      font-size: 1.2rem;
-      color: hsl(var(--foreground-secondary));
-      margin-bottom: 2rem;
-      line-height: 1.6;
-    }
-    
-    .access-denied-content a {
-      display: inline-block;
-      padding: 1rem 2rem;
-      background: var(--gradient-primary);
-      color: white;
-      text-decoration: none;
-      border-radius: 0.75rem;
-      font-weight: 700;
-      transition: var(--transition);
-      box-shadow: var(--shadow-glow);
-    }
-    
-    .access-denied-content a:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px hsla(var(--primary), 0.5);
-    }
-    
-    .hidden {
-      display: none !important;
-    }
-    
+    /* Header */
     .header {
       position: sticky;
       top: 0;
@@ -239,6 +204,43 @@
       align-items: center;
     }
     
+    .search-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    
+    .search-input {
+      background: hsl(var(--surface));
+      border: 1px solid var(--glass-border);
+      border-radius: 2rem;
+      padding: 0.75rem 1rem 0.75rem 3rem;
+      color: hsl(var(--foreground));
+      width: 220px;
+      transition: var(--transition);
+      font-size: 0.875rem;
+      outline: none;
+      backdrop-filter: blur(10px);
+    }
+    
+    .search-input:focus {
+      border-color: hsl(var(--primary));
+      box-shadow: 0 0 0 3px hsla(var(--primary), 0.2);
+      background: hsl(var(--surface-hover));
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      color: hsl(var(--foreground-muted));
+      font-size: 0.875rem;
+      transition: var(--transition);
+    }
+    
+    .search-input:focus + .search-icon {
+      color: hsl(var(--primary));
+    }
+    
     .theme-toggle {
       width: 42px;
       height: 42px;
@@ -261,6 +263,7 @@
       box-shadow: var(--shadow-glow);
     }
     
+    /* Verification Countdown */
     .verification-countdown {
       position: absolute;
       top: -10px;
@@ -297,17 +300,14 @@
       animation: pulse 1s infinite;
     }
     
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.8; transform: scale(0.98); }
-    }
-    
+    /* Main Container */
     .container {
       max-width: 1400px;
       margin: 0 auto;
       padding: 2rem 1.5rem;
     }
     
+    /* Hero Section */
     .hero {
       text-align: center;
       margin-bottom: 4rem;
@@ -377,6 +377,7 @@
       color: hsl(var(--primary));
     }
     
+    /* Main Video Screen */
     .main-screen-container {
       position: relative;
       margin-bottom: 3rem;
@@ -454,6 +455,7 @@
       opacity: 0.8;
     }
     
+    /* Category Sections */
     .category-section {
       margin-bottom: 4rem;
     }
@@ -485,6 +487,7 @@
       letter-spacing: -0.5px;
     }
     
+    /* Channel Grid */
     .channels-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -624,6 +627,7 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
     
+    /* Badges */
     .live-badge {
       position: absolute;
       top: 0.5rem;
@@ -680,6 +684,12 @@
       z-index: 5;
     }
     
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(0.98); }
+    }
+    
+    /* Footer */
     .footer {
       border-top: 1px solid var(--glass-border);
       padding: 1rem;
@@ -696,6 +706,7 @@
       text-shadow: 0 0 10px hsla(var(--primary), 0.2);
     }
     
+    /* Fixed Elements */
     .live-counter-container {
       position: fixed;
       bottom: 1.5rem;
@@ -736,6 +747,7 @@
       color: hsl(var(--foreground-muted));
     }
     
+    /* Telegram Popup */
     .telegram-popup {
       position: fixed;
       bottom: 1.5rem;
@@ -765,6 +777,7 @@
       opacity: 1;
     }
     
+    /* Video Modal */
     #videoModal {
       position: fixed;
       top: 0;
@@ -808,6 +821,146 @@
       z-index: 10000;
     }
     
+    /* Verification Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      backdrop-filter: blur(10px);
+    }
+    
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .verify-modal {
+      width: 90%;
+      max-width: 28rem;
+      padding: 2.5rem;
+      border-radius: 1.25rem;
+      text-align: center;
+      z-index: 110;
+      backdrop-filter: blur(30px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .verify-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: hsl(var(--primary));
+      margin-bottom: 1.25rem;
+    }
+    
+    .verify-description {
+      color: hsl(var(--foreground-secondary));
+      margin-bottom: 1.25rem;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+    
+    .tutorial-link {
+      display: block;
+      margin-bottom: 1.5rem;
+      color: hsl(var(--primary));
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .tutorial-link:hover {
+      background: hsla(var(--primary), 0.1);
+      transform: translateY(-1px);
+    }
+    
+    .verify-button {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      border: none;
+      background: var(--gradient-primary);
+      color: white;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow-glow);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .verify-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px hsla(var(--primary), 0.5);
+    }
+    
+    .verify-button::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s;
+    }
+    
+    .verify-button:hover::before {
+      transform: translateX(100%);
+    }
+
+    /* Verification Processing Styles */
+    .verify-button.processing {
+      background: linear-gradient(135deg, hsl(var(--foreground-muted)), hsl(217, 11%, 55%));
+      cursor: not-allowed;
+    }
+
+    .verify-button.processing:hover {
+      transform: none;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .modal-overlay.no-close {
+      cursor: not-allowed;
+    }
+
+    .modal-overlay.no-close .verify-modal {
+      cursor: default;
+    }
+    
+    .redirect-message {
+      margin-top: 1rem;
+      color: hsl(var(--success));
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: none;
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 1024px) {
+      .main-screen {
+        height: 60vh;
+        min-height: 400px;
+      }
+      
+      .channels-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+    }
+    
     @media (max-width: 768px) {
       .container {
         padding: 1.5rem 1rem;
@@ -818,6 +971,19 @@
         min-height: 350px;
       }
       
+      .main-screen-container {
+        margin-bottom: 2rem;
+        border-radius: 1rem;
+      }
+      
+      .main-screen {
+        border-radius: 1rem;
+      }
+      
+      .main-screen iframe {
+        border-radius: 1rem;
+      }
+      
       .channels-grid {
         grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
         gap: 0.75rem;
@@ -826,6 +992,37 @@
       .channel-card {
         height: 160px;
         padding: 0.75rem;
+      }
+      
+      .category-title {
+        font-size: 1.3rem;
+      }
+      
+      .category-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+      }
+      
+      .screen-placeholder i {
+        font-size: 3rem;
+      }
+      
+      .screen-placeholder h3 {
+        font-size: 1.2rem;
+      }
+      
+      .live-counter-container {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.5rem 0.75rem;
+      }
+      
+      .telegram-popup {
+        bottom: 1rem;
+        left: 1rem;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
       }
     }
     
@@ -848,307 +1045,613 @@
         height: 220px;
         padding: 0.75rem;
       }
+      
+      .channel-card:hover {
+        transform: translateY(-2px);
+      }
+      
+      .channel-logo-container {
+        height: 60px;
+      }
+      
+      .channel-logo {
+        max-height: 60px;
+        max-width: 110px;
+      }
+      
+      .category-title {
+        font-size: 1.1rem;
+      }
+      
+      .category-section {
+        margin-bottom: 2rem;
+      }
+      
+      .category-header {
+        margin-bottom: 1.5rem;
+      }
+      
+      .play-button {
+        font-size: 0.65rem;
+        padding: 0.4rem;
+        min-height: 32px;
+      }
+      
+      .channel-name {
+        font-size: 0.85rem;
+        height: 40px;
+      }
+      
+      .live-counter-container {
+        bottom: 0.5rem;
+        right: 0.5rem;
+        font-size: 0.7rem;
+        padding: 0.4rem 0.6rem;
+      }
+      
+      .telegram-popup {
+        bottom: 0.5rem;
+        left: 0.5rem;
+        font-size: 0.7rem;
+        padding: 0.4rem 0.6rem;
+      }
+      
+      #videoModal iframe {
+        height: 300px;
+      }
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: hsl(var(--background));
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: hsl(var(--surface-hover));
+      border-radius: 3px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: hsl(var(--primary));
     }
   </style>
 </head>
 <body>
-  <!-- Access Denied Message -->
-  <div id="accessDenied" class="hidden">
-    <div class="access-denied-content">
-      <h1>Access Restricted</h1>
-      <p>This content is only available to visitors referred from our partner website. Please complete verification to access premium channels.</p>
-      <a href="https://vplink.in/GaNi" target="_blank" id="verifyLink">Complete Verification</a>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <a href="#" class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-satellite-dish"></i>
+        </div>
+        <div class="logo-text">MatchesLinks</div>
+      </a>
+      <div class="controls">
+        <div class="search-container">
+          <input type="text" placeholder="Search channels..." class="search-input" id="searchInput">
+          <i class="fas fa-search search-icon"></i>
+        </div>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+      <div id="verificationCountdown" class="verification-countdown">
+        <i class="fas fa-shield-alt"></i>
+        <span id="countdownText">Verification: 24h 00m</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container" id="mainContent">
+    <!-- Hero Section -->
+    <section class="hero glass-heavy">
+      <div class="hero-content">
+        <h1>Disclaimer</h1>
+        <p>We do not host or own any of the content. All channels and streams are publicly available on the internet. We only collect and organize them for easy access.</p>
+        <div class="hero-badges">
+      </div>
+    </section>
+
+    <!-- Main Video Screen -->
+    <div class="main-screen-container">
+      <div class="main-screen" id="mainScreen">
+        <div class="screen-placeholder" id="screenPlaceholder">
+          <i class="fas fa-tv"></i>
+          <h3>Select a Channel</h3>
+          <p>Choose from premium sports channels below</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Events -->
+    <section class="category-section">
+      <div class="category-header">
+        <div class="category-icon">
+          <i class="fas fa-bolt"></i>
+        </div>
+        <h2 class="category-title">Live Events</h2>
+      </div>
+      <div class="channels-grid" id="liveEventsGrid"></div>
+    </section>
+
+    <!-- Sports Channels -->
+    <section class="category-section">
+      <div class="category-header">
+        <div class="category-icon">
+          <i class="fas fa-trophy"></i>
+        </div>
+        <h2 class="category-title">Sports Channels</h2>
+      </div>
+      <div class="channels-grid" id="sportsGrid"></div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-text">
+      © 2024 MatchesLinks - Premium Sports Streaming Platform
+    </div>
+  </footer>
+
+  <!-- Live Counter -->
+  <div class="live-counter-container glass">
+    <div class="live-counter">
+      <span class="live-count">
+        <script src="//widget.supercounters.com/ssl/online_t.js" type="text/javascript"></script>
+        <script type="text/javascript">sc_online_t(1707487,"🔴 online","FF0000");</script>
+      </span>
+    </div>
+    <div class="last-updated">Updated: <span id="lastUpdated">Loading...</span></div>
+  </div>
+
+  <!-- Telegram Popup -->
+  <a class="telegram-popup" href="https://t.me/+e3-eAje291cxNGNl" id="telegramPopup">
+    <i class="fab fa-telegram-plane"></i>
+    Join Channel
+  </a>
+
+  <!-- Video Modal -->
+  <div id="videoModal">
+    <div class="video-content">
+      <span class="close-button" onclick="closeVideoModal()">&times;</span>
+      <h2 id="videoTitle"></h2>
+      <iframe 
+        id="videoFrame" 
+        src="" 
+        frameborder="0" 
+        allow="autoplay; encrypted-media; fullscreen" 
+        sandbox="allow-same-origin allow-scripts" 
+        allowfullscreen>
+      </iframe>
     </div>
   </div>
 
-  <!-- Main Content (Only visible to verified users) -->
-  <div id="mainContent" class="hidden">
-    <!-- Header -->
-    <header class="header">
-      <div class="header-content">
-        <a href="#" class="logo">
-          <div class="logo-icon">
-            <i class="fas fa-satellite-dish"></i>
-          </div>
-          <div class="logo-text">MatchesLinks</div>
-        </a>
-        <div class="controls">
-          <button class="theme-toggle" id="themeToggle" title="Toggle theme">
-            <i class="fas fa-moon"></i>
-          </button>
-        </div>
-        <div id="verificationCountdown" class="verification-countdown">
-          <i class="fas fa-shield-alt"></i>
-          <span id="countdownText">Verification: 24h 00m</span>
-        </div>
-      </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="container">
-      <!-- Hero Section -->
-      <section class="hero glass-heavy">
-        <div class="hero-content">
-          <h1>Disclaimer</h1>
-          <p>We do not host or own any of the content. All channels and streams are publicly available on the internet. We only collect and organize them for easy access.</p>
-          <div class="hero-badges">
-            <div class="hero-badge">
-              <i class="fas fa-hd-video"></i> HD Quality
-            </div>
-            <div class="hero-badge">
-              <i class="fas fa-language"></i> Multiple Languages
-            </div>
-            <div class="hero-badge">
-              <i class="fas fa-bolt"></i> Instant Access
-            </div>
-            <div class="hero-badge">
-              <i class="fas fa-globe"></i> Worldwide Channels
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Main Video Screen -->
-      <div class="main-screen-container">
-        <div class="main-screen" id="mainScreen">
-          <div class="screen-placeholder" id="screenPlaceholder">
-            <i class="fas fa-tv"></i>
-            <h3>Select a Channel</h3>
-            <p>Choose from premium sports channels below</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Live Events -->
-      <section class="category-section">
-        <div class="category-header">
-          <div class="category-icon">
-            <i class="fas fa-bolt"></i>
-          </div>
-          <h2 class="category-title">Live Events</h2>
-        </div>
-        <div class="channels-grid" id="liveEventsGrid"></div>
-      </section>
-
-      <!-- Sports Channels -->
-      <section class="category-section">
-        <div class="category-header">
-          <div class="category-icon">
-            <i class="fas fa-trophy"></i>
-          </div>
-          <h2 class="category-title">Sports Channels</h2>
-        </div>
-        <div class="channels-grid" id="sportsGrid"></div>
-      </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="footer-text">
-        © 2024 MatchesLinks - Premium Sports Streaming Platform
-      </div>
-    </footer>
-
-    <!-- Live Counter -->
-    <div class="live-counter-container glass">
-      <div class="live-counter">
-        <span class="live-count">
-          <script src="//widget.supercounters.com/ssl/online_t.js" type="text/javascript"></script>
-          <script type="text/javascript">sc_online_t(1707487,"🔴 online","FF0000");</script>
-        </span>
-      </div>
-      <div class="last-updated">Updated: <span id="lastUpdated">Loading...</span></div>
-    </div>
-
-    <!-- Telegram Popup -->
-    <a class="telegram-popup" href="https://t.me/+e3-eAje291cxNGNl" id="telegramPopup">
-      <i class="fab fa-telegram-plane"></i>
-      Join Channel
-    </a>
-
-    <!-- Video Modal -->
-    <div id="videoModal">
-      <div class="video-content">
-        <span class="close-button" onclick="closeVideoModal()">&times;</span>
-        <h2 id="videoTitle"></h2>
-        <iframe 
-          id="videoFrame" 
-          src="" 
-          frameborder="0" 
-          allow="autoplay; encrypted-media; fullscreen" 
-          sandbox="allow-same-origin allow-scripts" 
-          allowfullscreen>
-        </iframe>
+  <!-- Verification Modal -->
+  <div class="modal-overlay" id="verifyModal">
+    <div class="verify-modal glass-heavy">
+      <h2 class="verify-title">
+        <i class="fas fa-shield-alt"></i>
+        VERIFICATION REQUIRED
+      </h2>
+      <p class="verify-description">
+        To access our premium sports channels and live events, please complete a quick verification process. This helps us maintain quality service and prevent abuse.
+      </p>
+      <a href="https://t.me/tutorialbymatcheslinks/20" class="tutorial-link" target="_blank">
+        <i class="fas fa-question-circle"></i> Confused? Watch The Tutorial how To do verification
+      </a>
+      <button class="verify-button" onclick="handleVerification()" id="verifyButton">
+        VERIFY NOW
+      </button>
+      <div id="redirectMessage" class="redirect-message">
+        <i class="fas fa-check-circle"></i> Do The Verification And You Will Be Verified
       </div>
     </div>
   </div>
 
   <script>
-    // Enhanced Access Control System - FIXED VERSION
-    function checkAccess() {
-      // Get the current URL parameters
-      const urlParams = new URLSearchParams(window.location.search);
-      const referrer = document.referrer;
-      
-      console.log('Referrer:', referrer);
-      console.log('URL Params:', urlParams.toString());
-      
-      // Check if user is already verified (stored in localStorage)
-      const storedVerification = localStorage.getItem('matcheslinks_verified');
-      const verificationExpiry = localStorage.getItem('matcheslinks_expiry');
-      
-      console.log('Stored verification:', storedVerification);
-      console.log('Verification expiry:', verificationExpiry);
-      
-      // ALLOW ACCESS IF:
-      // 1. Coming from vplink.in domain (FIXED: More flexible check)
-      // 2. Has specific URL parameter (for testing)
-      // 3. Is localhost (for development)
-      // 4. Has valid stored verification that hasn't expired
-      // 5. Has vplink parameter in URL (for direct links)
-      
-      const isFromVplink = referrer && (
-        referrer.includes('vplink.in') || 
-        referrer.includes('vplink') ||
-        referrer.includes('vp-link')
-      );
-      
-      const hasAccessParam = urlParams.has('access') || 
-                           urlParams.has('verified') || 
-                           urlParams.has('vplink') ||
-                           urlParams.has('ref');
-      
-      const isLocalhost = window.location.hostname === 'localhost' || 
-                         window.location.hostname === '127.0.0.1' ||
-                         window.location.hostname === '';
-      
-      const hasValidVerification = storedVerification === 'true' && 
-                                  verificationExpiry && 
-                                  Date.now() < parseInt(verificationExpiry);
-      
-      console.log('From vplink:', isFromVplink);
-      console.log('Has access param:', hasAccessParam);
-      console.log('Is localhost:', isLocalhost);
-      console.log('Has valid verification:', hasValidVerification);
-      
-      // NEW: Check if user is coming back from verification
-      const isReturningFromVerification = sessionStorage.getItem('returning_from_verification') === 'true';
-      
-      if (isFromVplink || hasAccessParam || isLocalhost || hasValidVerification || isReturningFromVerification) {
-        // GRANT ACCESS
-        console.log('ACCESS GRANTED');
-        
-        // If coming from vplink or has access param, store verification
-        if ((isFromVplink || hasAccessParam || isReturningFromVerification) && !hasValidVerification) {
-          storeVerification();
-        }
-        
-        // Clear the returning flag
-        sessionStorage.removeItem('returning_from_verification');
-        
-        document.getElementById('accessDenied').classList.add('hidden');
-        document.getElementById('mainContent').classList.remove('hidden');
-        startVerificationCountdown();
-        initializePlayer();
-      } else {
-        // DENY ACCESS
-        console.log('ACCESS DENIED');
-        document.getElementById('accessDenied').classList.remove('hidden');
-        document.getElementById('mainContent').classList.add('hidden');
-        
-        // Set up verification link to mark user as returning
-        const verifyLink = document.getElementById('verifyLink');
-        if (verifyLink) {
-          verifyLink.addEventListener('click', function() {
-            sessionStorage.setItem('returning_from_verification', 'true');
-          });
-        }
+    // Performance monitoring
+    const startTime = performance.now();
+    let searchTimeout;
+    let countdownInterval = null;
+
+    // Channel Data from your indexxxx.html
+    const liveEvents = [
+      {
+        name: "Jaipur Pink Panthers Vs Dabang Delhi (English)",
+        logo: "https://img10.hotstar.com/image/upload/f_auto,q_90,w_1920/sources/r1/cms/prod/9444/1759670569444-i",
+        url: "https://matcheslinks-763.pages.dev/ss2hd",
+        live: true,
+        openInNewTab: false,
+        upcoming: true,
+        unlockTime: new Date("2025-10-06T19:30:00+05:30").getTime(),
+      },
+      {
+        name: "Jaipur Pink Panthers Vs Dabang Delhi (Hindi)",
+        logo: "https://img10.hotstar.com/image/upload/f_auto,q_90,w_1920/sources/r1/cms/prod/9444/1759670569444-i",
+        url: "https://matcheslinks-763.pages.dev/sshindi1hd",
+        live: true,
+        openInNewTab: false,
+        upcoming: true,
+        unlockTime: new Date("2025-10-06T19:30:00+05:30").getTime(),
+      },
+      {
+        name: "Jaipur Pink Panthers Vs Dabang Delhi (Telugu)",
+        logo: "https://img10.hotstar.com/image/upload/f_auto,q_90,w_1920/sources/r1/cms/prod/9444/1759670569444-i",
+        url: "https://matcheslinks-763.pages.dev//ss2telgu",
+        live: true,
+        openInNewTab: false,
+        upcoming: true,
+        unlockTime: new Date("2025-10-06T19:30:00+05:30").getTime(),
+      },
+      {
+        name: "Jaipur Pink Panthers Vs Dabang Delhi (Tamil)",
+        logo: "https://img10.hotstar.com/image/upload/f_auto,q_90,w_1920/sources/r1/cms/prod/9444/1759670569444-i",
+        url: "https://matcheslinks-763.pages.dev//ss1tamil",
+        live: true,
+        openInNewTab: false,
+        upcoming: true,
+        unlockTime: new Date("2025-10-06T19:30:00+05:30").getTime(),
       }
-    }
+    ];
 
-    // Store verification status in localStorage
-    function storeVerification() {
-      const expiryTime = Date.now() + (24 * 60 * 60 * 1000); // 24 hours from now
-      localStorage.setItem('matcheslinks_verified', 'true');
-      localStorage.setItem('matcheslinks_expiry', expiryTime.toString());
-      console.log('Verification stored until:', new Date(expiryTime));
-    }
-
-    // Start verification countdown (24 hours)
-    function startVerificationCountdown() {
-      const verificationCountdown = document.getElementById('verificationCountdown');
-      const countdownText = document.getElementById('countdownText');
-      
-      // Show the countdown element
-      verificationCountdown.classList.add('visible');
-      
-      // Get expiry time from localStorage or set new one
-      let expiryTime = localStorage.getItem('matcheslinks_expiry');
-      if (!expiryTime) {
-        expiryTime = Date.now() + (24 * 60 * 60 * 1000);
-        localStorage.setItem('matcheslinks_expiry', expiryTime.toString());
+    const sportsChannels = [
+      {
+        name: "Usa Eaast",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbUV0ZwQ2eqYvHjl8sc7TpVyLgVMHhpINZYw&s",
+        url: "https://mpd-player-ivory.vercel.app/?id=usaeast"
+      },
+      {
+        name: "Usa Weest",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbUV0ZwQ2eqYvHjl8sc7TpVyLgVMHhpINZYw&s",
+        url: "https://mpd-player-ivory.vercel.app/?id=usawest"
+      },
+      {
+        name: "Universo East",
+        logo: "https://static.wikia.nocookie.net/logopedia/images/2/20/Universo_social_media_icon.jpg",
+        url: "https://mpd-player-ivory.vercel.app/?id=Universoeast"
+      },
+      {
+        name: "Universo West",
+        logo: "https://static.wikia.nocookie.net/logopedia/images/2/20/Universo_social_media_icon.jpg",
+        url: "https://mpd-player-ivory.vercel.app/?id=Universowest"
+      },
+      {
+        name: "PREMIERE",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2EEWVCQOoxt25cbgG1bTNeQirzrSFo73WnDlEqAdAciBS4fa92a6zb8cG&s=10",
+        url: "https://mpd-player-ivory.vercel.app/?id=PREMIERE"
+      },
+      {
+        name: "CBS",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaRn8jrZJuviL_R18LlX2vVcmugS_nud-tCOHGsa7zzLrrgrAujcovmmI&s=10",
+        url: "https://mpd-player-ivory.vercel.app/?id=cbs"
+      },
+      {
+        name: "NFl",
+        logo: "https://static.www.nfl.com/image/private/f_auto/league/khjxu70iiu14uvxridek",
+        url: "https://mpd-player-ivory.vercel.app/?id=nfl"
+      },
+      {
+        name: "Fancode Videos",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwecamCNkhOd40wQVfMtI7h-p9T_UOFKoXZ3tRMHyXW-exrgzC8SYREfw&s=10",
+        url: "https://mpd-player-ivory.vercel.app/?id=fancodevideos"
+      },
+      {
+        name: "DAZN Events",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLwPuwgMEOUaWB6VDltQNQf-n0AXPCX1rprg&s",
+        url: "https://mpd-player-ivory.vercel.app/?id=DAZN"
+      },
+      {
+        name: "BEIN 1",
+        logo: "data:image/png;base64,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",
+        url: "https://mpd-player-ivory.vercel.app/?id=Bein1"
+      },
+      {
+        name: "BEIN 2",
+        logo: "data:image/png;base64,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",
+        url: "https://mpd-player-ivory.vercel.app/?id=bein2"
+      },
+      {
+        name: "BEIN 3",
+        logo: "data:image/png;base64,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",
+        url: "https://mpd-player-ivory.vercel.app/?id=bein3"
+      },
+      {
+        name: "Sportv",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyjDUIwpUYLH0zRNH5ehUWe2x5AxLuct4JU6sDmMHN-Zd6_iP0zN22oZY&s=10",
+        url: "https://mpd-player-ivory.vercel.app/?id=sportv"
+      },
+      {
+        name: "1 MEDIASET HD",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0Oo0YPM9Oaxah7WWSC9OXd39C7WcYlKkPTGS4RF6CFQ&s",
+        url: "https://mpd-player-ivory.vercel.app/?id=MEDIASET1"
+      },
+      {
+        name: "UFC",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_e9sy7xqbqp0ZqoiXnoMPhVhGEW8CVzcYUXclaFHNrF9lWhc4PZhHfsgP&s=10",
+        url: "https://mpd-player-ivory.vercel.app/?id=ufc"
+      },
+      {
+        name: "ESPN 1",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzmd4mg7ei0TS3GHwc9prZkTMG6pxDZkuZpw&usqp=CAU",
+        url: "https://mpd-player-ivory.vercel.app/?id=ESPN1"
+      },
+      {
+        name: "ESPN 2",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzmd4mg7ei0TS3GHwc9prZkTMG6pxDZkuZpw&usqp=CAU",
+        url: "https://mpd-player-ivory.vercel.app/?id=ESPN2"
+      },
+      {
+        name: "ESPN 3",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzmd4mg7ei0TS3GHwc9prZkTMG6pxDZkuZpw&usqp=CAU",
+        url: "https://mpd-player-ivory.vercel.app/?id=ESPN3"
+      },
+      {
+        name: "ESPN 4",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzmd4mg7ei0TS3GHwc9prZkTMG6pxDZkuZpw&usqp=CAU",
+        url: "https://mpd-player-ivory.vercel.app/?id=ESPN4"
+      },
+      {
+        name: "Sky Sports",
+        logo: "https://static.skyassets.com/contentstack/assets/blt4b099fa9cc3801a6/blt9c3c0a116b7aa87b/68b6f3d3c53b042695f96c48/Sky-sports-primary-tile.jpg?downsize=320,640:*&output-format=jpg",
+        url: "https://mpd-player-ivory.vercel.app/?id=SKYSPORTS"
+      },
+      {
+        name: "Sky Sports 2",
+        logo: "https://static.skyassets.com/contentstack/assets/blt4b099fa9cc3801a6/blt9c3c0a116b7aa87b/68b6f3d3c53b042695f96c48/Sky-sports-primary-tile.jpg?downsize=320,640:*&output-format=jpg",
+        url: "https://mpd-player-ivory.vercel.app/?id=SKYSPORTS2"
+      },
+      {
+        name: "Sky Events 1",
+        logo: "https://static.skyassets.com/contentstack/assets/blt4b099fa9cc3801a6/blt9c3c0a116b7aa87b/68b6f3d3c53b042695f96c48/Sky-sports-primary-tile.jpg?downsize=320,640:*&output-format=jpg",
+        url: "https://mpd-player-ivory.vercel.app/?id=SKYSPORTS_LIVE1"
+      },
+      {
+        name: "Sky Events 2",
+        logo: "https://static.skyassets.com/contentstack/assets/blt4b099fa9cc3801a6/blt9c3c0a116b7aa87b/68b6f3d3c53b042695f96c48/Sky-sports-primary-tile.jpg?downsize=320,640:*&output-format=jpg",
+        url: "https://mpd-player-ivory.vercel.app/?id=SKYSPORTS_LIVE2"
+      },
+      {
+        name: "Sky Events 4",
+        logo: "https://static.skyassets.com/contentstack/assets/blt4b099fa9cc3801a6/blt9c3c0a116b7aa87b/68b6f3d3c53b042695f96c48/Sky-sports-primary-tile.jpg?downsize=320,640:*&output-format=jpg",
+        url: "https://mpd-player-ivory.vercel.app/?id=SKYSPORTS_LIVE4"
+      },
+      {
+        name: "FOX SPORTS",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1GQorPxz3DKLeC8j85LDhAmIh53v_USxxyw&usqp=CAU",
+        url: "https://mpd-player-ivory.vercel.app/?id=FOXSPORTS"
+      },
+      {
+        name: "FOX SPORTS 2",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1GQorPxz3DKLeC8j85LDhAmIh53v_USxxyw&usqp=CAU",
+        url: "https://mpd-player-ivory.vercel.app/?id=FOXSPORTS2"
+      },
+      {
+        name: "FOX SPORTS 3",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1GQorPxz3DKLeC8j85LDhAmIh53v_USxxyw&usqp=CAU",
+        url: "https://mpd-player-ivory.vercel.app/?id=FOXSPORTS3"
+      },
+      {
+        name: "FOX SPORTS PRENIUM",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/f/f2/Fox_Sports_Premium_%28Argentina%29_-_2018_logo.png",
+        url: "https://mpd-player-ivory.vercel.app/?id=FOXSPORTS_PREMIUM"
+      },
+      {
+        name: "Fubo Sports",
+        logo: "https://images.fubo.tv/station_logos/fubo-sports23_m.png",
+        url: "https://mpd-player-ivory.vercel.app/?id=fubo"
+      },
+      {
+        name: "SKY SPORTS LALIGA",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQh1IoJO-olMV3VE5nHDw1NU8ExocnQS-wVwScHAwBbHjDSwaouUvu5eKb17DzuBUw98w&usqp=CAU",
+        url: "https://mpd-player-ivory.vercel.app/?id=SKYSPORTS_LALIGA"
+      },
+      {
+        name: "SKY SPORTS BUNDESLIGA",
+        logo: "https://pbs.twimg.com/media/FYjlInYXEAIfUAT.jpg:large",
+        url: "https://mpd-player-ivory.vercel.app/?id=SKYSPORTS_BUDESLIGA"
+      },
+      {
+        name: "SKY SPORTS BUNDESLIGA 2",
+        logo: "https://pbs.twimg.com/media/FYjlInYXEAIfUAT.jpg:large",
+        url: "https://mpd-player-ivory.vercel.app/?id=SKYSPORTS_BUDESLIGA2"
+      },
+      {
+        name: "REAL MADRID TV",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS95_GnP3XFTnrRGkU_XHi_UcoEwc92sLJmcg&s",
+        url: "https://jolly-treacle-7b99e0.netlify.app/"
+      },
+      {
+        name: "LALIGA TV",
+        logo: "https://pbs.twimg.com/profile_images/1747989339764572160/7nxm03-2_200x200.jpg",
+        url: "https://mpd-player-ivory.vercel.app/?id=laligatv"
+      },
+      {
+        name: "ZIGGO SPORTS 1",
+        logo: "https://www.planetzone.nl/wp-content/uploads/ziggosport.png",
+        url: "https://mpd-player-ivory.vercel.app/?id=ZIGGO1"
+      },
+      {
+        name: "ZIGGO SPORTS 2",
+        logo: "https://www.planetzone.nl/wp-content/uploads/ziggosport.png",
+        url: "https://mpd-player-ivory.vercel.app/?id=ZIGGO2"
+      },
+      {
+        name: "ZIGGO SPORTS 3",
+        logo: "https://www.planetzone.nl/wp-content/uploads/ziggosport.png",
+        url: "https://mpd-player-ivory.vercel.app/?id=ZIGGO3"
+      },
+      {
+        name: "SETANTA SPORTS 1",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5xJaiqYiIsDSicE9-grMxbKmjNC0kH8edLQ&s",
+        url: "https://mpd-player-ivory.vercel.app/?id=SETANTASPORTS1"
+      },
+      {
+        name: "TSN 1",
+        logo: "data:image/png;base64,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",
+        url: "https://fluffy-cucurucho-df41e4.netlify.app/"
+      },
+      {
+        name: "TSN 2",
+        logo: "https://play-lh.googleusercontent.com/Wfh4tn-kWAGTUIMxVgyZ1g2BEHrdDtjyXwUdqJLwX6w640Lc3DJoLoZqoCSEbYWpTw",
+        url: "https://calm-croissant-12afd7.netlify.app/"
+      },
+      {
+        name: "TSN 3",
+        logo: "https://play-lh.googleusercontent.com/Wfh4tn-kWAGTUIMxVgyZ1g2BEHrdDtjyXwUdqJLwX6w640Lc3DJoLoZqoCSEbYWpTw",
+        url: "https://lustrous-liger-25782c.netlify.app/"
+      },
+      {
+        name: "TSN 4",
+        logo: "https://play-lh.googleusercontent.com/Wfh4tn-kWAGTUIMxVgyZ1g2BEHrdDtjyXwUdqJLwX6w640Lc3DJoLoZqoCSEbYWpTw",
+        url: "https://superlative-alfajores-6896d4.netlify.app/"
+      },
+      {
+        name: "TSN 5",
+        logo: "https://play-lh.googleusercontent.com/Wfh4tn-kWAGTUIMxVgyZ1g2BEHrdDtjyXwUdqJLwX6w640Lc3DJoLoZqoCSEbYWpTw",
+        url: "https://imaginative-donut-233620.netlify.app/"
+      },
+      {
+        name: "TNT SPORTS 1",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI2NSvkyk8Fx2UMBXFdEXS36TNepD6Uy8pMQveJnYRbDnXedcg2tttKHz3&s=10",
+        url: "https://mpd-player-ivory.vercel.app/?id=TNT_1_GB"
+      },
+      {
+        name: "TNT SPORTS 2",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI2NSvkyk8Fx2UMBXFdEXS36TNepD6Uy8pMQveJnYRbDnXedcg2tttKHz3&s=10",
+        url: "https://mpd-player-ivory.vercel.app/?id=TNT_2_GB"
+      },
+      {
+        name: "TNT SPORTS 3",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI2NSvkyk8Fx2UMBXFdEXS36TNepD6Uy8pMQveJnYRbDnXedcg2tttKHz3&s=10",
+        url: "https://mpd-player-ivory.vercel.app/?id=TNT_3_GB"
+      },
+      {
+        name: "TNT SPORTS 4",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI2NSvkyk8Fx2UMBXFdEXS36TNepD6Uy8pMQveJnYRbDnXedcg2tttKHz3&s=10",
+        url: "https://mpd-player-ivory.vercel.app/?id=TNT_4_GB"
+      },
+      {
+        name: "SSC 1",
+        logo: "https://images.seeklogo.com/logo-png/49/1/ssc-tv-logo-png_seeklogo-498010.png",
+        url: "https://gleaming-meringue-fba932.netlify.app/"
+      },
+      {
+        name: "SSC 2",
+        logo: "https://images.seeklogo.com/logo-png/49/1/ssc-tv-logo-png_seeklogo-498010.png",
+        url: "https://nimble-belekoy-a83e0c.netlify.app/"
+      },
+      {
+        name: "SSC 3",
+        logo: "https://images.seeklogo.com/logo-png/49/1/ssc-tv-logo-png_seeklogo-498010.png",
+        url: "https://shimmering-choux-f6c58c.netlify.app/"
+      },
+      {
+        name: "SSC 4",
+        logo: "https://images.seeklogo.com/logo-png/49/1/ssc-tv-logo-png_seeklogo-498010.png",
+        url: "https://courageous-longma-8f0f4c.netlify.app/"
+      },
+      {
+        name: "SSC 5",
+        logo: "https://images.seeklogo.com/logo-png/49/1/ssc-tv-logo-png_seeklogo-498010.png",
+        url: "https://mellifluous-donut-5c4b44.netlify.app/"
+      },
+      {
+        name: "SSC EXTRA 1",
+        logo: "https://images.seeklogo.com/logo-png/49/1/ssc-tv-logo-png_seeklogo-498010.png",
+        url: "https://ornate-tiramisu-95d7cc.netlify.app/"
+      },
+      {
+        name: "SSC EXTRA 2",
+        logo: "https://images.seeklogo.com/logo-png/49/1/ssc-tv-logo-png_seeklogo-498010.png",
+        url: "https://delightful-youtiao-330cfd.netlify.app/"
+      },
+      {
+        name: "SSC EXTRA 3",
+        logo: "https://images.seeklogo.com/logo-png/49/1/ssc-tv-logo-png_seeklogo-498010.png",
+        url: "https://sparkly-scone-29fbd8.netlify.app/"
+      },
+      {
+        name: "Astro Sports Plus",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Astro_Sports_Plus_%282024%29.png/960px-Astro_Sports_Plus_%282024%29.png",
+        url: "https://astro-sports-plus.vercel.app/"
+      },
+      {
+        name: "Astro Sports UHD",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/b/bf/Astro_Sports_UHD_1_%282024%29.png",
+        url: "https://astro-uhd.vercel.app/"
+      },
+      {
+        name: "SONY TEN 1 HD (Use In Full Screen)",
+        logo: "https://jiotvimages.cdn.jio.com/dare_images/images/Ten_HD.png",
+        url: "https://sonyten1.vercel.app"
+      },
+      {
+        name: "SONY TEN 2 HD (Use In Full Screen)",
+        logo: "https://jiotvimages.cdn.jio.com/dare_images/images/Ten2_HD.png",
+        url: "https://sonyten2-drab.vercel.app/"
+      },
+      {
+        name: "SONY TEN 3 HD (Use In Full Screen)",
+        logo: "https://jiotvimages.cdn.jio.com/dare_images/images/Ten3_HD.png",
+        url: "https://sonyten3-343g.vercel.app/"
+      },
+      {
+        name: "SONY TEN 5 HD (Use In Full Screen)",
+        logo: "https://jiotvimages.cdn.jio.com/dare_images/images/Six_HD.png",
+        url: "https://sonyten5.vercel.app/"
+      },
+      {
+        name: "Star Sports 1 Tamil HD",
+        logo: "https://jiotvimages.cdn.jio.com/dare_images/images/Star_Sports_1_Tamil.png",
+        url: "https://matcheslinkss.pages.dev/ss1tamil"
+      },
+      {
+        name: "Star Sports 2 Telgu HD",
+        logo: "https://jiotvimages.cdn.jio.com/dare_images/images/Star_Sports_1_Tamil.png",
+        url: "https://matcheslinkss.pages.dev/ss2telugu"
+      },
+      {
+        name: "Star Sports 1 HD (ios)",
+        logo: "https://jiotvimages.cdn.jio.com/dare_images/images/Star_Sports_1.png",
+        url: "https://css-player.vercel.app/?url=https://live.dinesh29.com.np/stream/jiotvplus/starsportshd1/stream_0.m3u8?uid=2988702312"
+      },
+      {
+        name: "Star Sports 1 HD",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Star_Sports_1_HD.png/2560px-Star_Sports_1_HD.png",
+        url: "https://matcheslinkss.pages.dev/ss1hd"
+      },
+      {
+        name: "Star Sports 2 HD",
+        logo: "https://jiotvimages.cdn.jio.com/dare_images/images/Star_Sports_2.png",
+        url: "https://matcheslinkss.pages.dev/ss2hd"
+      },
+      {
+        name: "Star Sports 2 HD (ios)",
+        logo: "https://jiotvimages.cdn.jio.com/dare_images/images/Star_Sports_2.png",
+        url: "https://css-player.vercel.app/?url=https://live.dinesh29.com.np/stream/jiotvplus/starsportshd2/master.m3u8"
+      },
+      {
+        name: "Star Sports 1 Hindi HD",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Star_Sports_1_HD.png/2560px-Star_Sports_1_HD.png",
+        url: "https://matcheslinkss.pages.dev/sshindi1hd"
+      },
+      {
+        name: "Star Sports 1 Hindi HD (ios)",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Star_Sports_1_HD.png/2560px-Star_Sports_1_HD.png",
+        url: "https://css-player.vercel.app/?url=https://live.dinesh29.com.np/stream/jiotvplus/starsportshd1hindi/master.m3u8"
       }
-      
-      // Update the countdown every second
-      const countdownInterval = setInterval(() => {
-        const remainingTime = parseInt(expiryTime) - Date.now();
-        
-        if (remainingTime <= 0) {
-          // Countdown finished
-          clearInterval(countdownInterval);
-          verificationCountdown.classList.add('danger');
-          countdownText.textContent = 'Verification Expired!';
-          
-          // Clear verification status
-          localStorage.removeItem('matcheslinks_verified');
-          localStorage.removeItem('matcheslinks_expiry');
-          
-          // Show access denied and hide main content
-          document.getElementById('accessDenied').classList.remove('hidden');
-          document.getElementById('mainContent').classList.add('hidden');
-          
-          // Update access denied message for expired verification
-          const accessDeniedContent = document.querySelector('.access-denied-content');
-          accessDeniedContent.innerHTML = `
-            <h1>Verification Expired</h1>
-            <p>Your 24-hour access has ended. Please complete verification again to regain access to premium channels.</p>
-            <a href="https://vplink.in/GaNi" target="_blank" id="verifyLink">Complete Verification Again</a>
-          `;
-          
-          // Set up the new verification link
-          const newVerifyLink = document.getElementById('verifyLink');
-          if (newVerifyLink) {
-            newVerifyLink.addEventListener('click', function() {
-              sessionStorage.setItem('returning_from_verification', 'true');
-            });
-          }
-        } else {
-          // Update countdown display
-          const hours = Math.floor(remainingTime / (60 * 60 * 1000));
-          const minutes = Math.floor((remainingTime % (60 * 60 * 1000)) / (60 * 1000));
-          
-          countdownText.textContent = `Verification: ${hours}h ${minutes}m`;
-          
-          // Change color when less than 1 hour remains
-          if (hours < 1) {
-            verificationCountdown.classList.add('warning');
-          }
-        }
-      }, 1000);
-    }
+    ];
 
-    // Initialize the player and UI
-    function initializePlayer() {
-      // Initialize theme
-      initializeTheme();
-      
-      // Initialize channels
-      renderChannelsInstant();
-      
-      // Update timestamp
-      updateTimestamp();
-      setInterval(updateTimestamp, 120000);
-    }
+    let selectedChannelData = null;
 
     // Update timestamp function
     function updateTimestamp() {
@@ -1163,52 +1666,16 @@
       }
     }
 
-    // Initialize theme toggle
-    function initializeTheme() {
-      const themeToggle = document.getElementById('themeToggle');
-      const savedTheme = localStorage.getItem('theme') || 'dark';
-      document.body.classList.toggle('light', savedTheme === 'light');
-      themeToggle.innerHTML = savedTheme === 'light' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-      
-      themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('light');
-        const isLight = document.body.classList.contains('light');
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-        themeToggle.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-      });
-    }
-
-    // Channel Data from your indexxxx.html
-    const liveEvents = [
-      // Your existing liveEvents array remains the same
-      {
-        name: "Afghanistan Vs Bangladesh (English)",
-        logo: "https://www.fancode.com/skillup-uploads/cms-media/Afghanistan-vs-Bangladesh-ODi_Old_1759319822634.jpg",
-        url: "https://hls-player-three.vercel.app/?id=136881&cdn=adfree_stream",
-        live: true,
-        openInNewTab: false,
-        upcoming: false,
-        unlockTime: new Date("2025-10-07T19:30:00+05:30").getTime(),
-      },
-      // ... rest of your liveEvents array
-    ];
-
-    const sportsChannels = [
-      // Your existing sportsChannels array remains the same
-      {
-        name: "Usa Eaast",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbUV0ZwQ2eqYvHjl8sc7TpVyLgVMHhpINZYw&s",
-        url: "https://mpd-player-ivory.vercel.app/?id=usaeast"
-      },
-      // ... rest of your sportsChannels array
-    ];
-
-    // Load channel on main screen
+    // Load channel on main screen (FIXED for MPD + key playback)
     function loadChannelOnMainScreen(channelData) {
       const mainScreen = document.getElementById('mainScreen');
       const placeholder = document.getElementById('screenPlaceholder');
       placeholder.style.display = 'none';
 
+      // remove any previous placeholder error markup if present
+      placeholder.innerHTML = '<i class="fas fa-tv"></i><h3>Select a Channel</h3><p>Choose from premium sports channels below</p>';
+
+      // Ensure we reuse iframe where possible but set correct attributes for MPD playback
       let iframe = mainScreen.querySelector('iframe');
       if (!iframe) {
         iframe = document.createElement('iframe');
@@ -1216,16 +1683,45 @@
         iframe.style.height = '100%';
         iframe.style.border = 'none';
         iframe.style.borderRadius = '1.5rem';
-        iframe.allow = "autoplay; encrypted-media; fullscreen";
-        iframe.sandbox = "allow-same-origin allow-scripts";
+
+        // Allow attributes that enable autoplay & key/drm flows
+        iframe.allow = "autoplay; encrypted-media; fullscreen; picture-in-picture; clipboard-write; cross-origin-isolated";
+        // sandbox must allow same-origin & scripts for players that fetch keys & run JS
+        iframe.sandbox = "allow-same-origin allow-scripts allow-popups allow-presentation allow-forms allow-top-navigation-by-user-activation";
+        // best-referrer policy for embedded players
+        iframe.referrerPolicy = "no-referrer-when-downgrade";
         iframe.allowFullscreen = true;
+
+        // Attach onload/onerror handlers for fallback UI
+        iframe.onload = function() {
+          // If the iframe loads but the inner player needs a moment to start, keep placeholder hidden.
+          iframe.style.display = 'block';
+          placeholder.style.display = 'none';
+        };
+        iframe.onerror = function() {
+          // Show fallback in placeholder
+          iframe.style.display = 'none';
+          placeholder.style.display = 'block';
+          placeholder.innerHTML = '<i class="fas fa-exclamation-triangle"></i><h3>Stream Offline</h3><p>This stream is currently unavailable. Please try again later.</p>';
+        };
+
         mainScreen.appendChild(iframe);
       }
 
-      iframe.src = channelData.url;
+      // Force a clean reload to ensure new player context for MPD/key flows
+      try {
+        iframe.src = 'about:blank';
+      } catch (e) {
+        /* ignore */
+      }
+      setTimeout(() => {
+        iframe.src = channelData.url;
+      }, 120);
+
+      selectedChannelData = channelData;
     }
 
-    // Handle channel play
+    // Handle channel play with verification check
     function handleChannelPlay(event, url, name, isUpcoming) {
       if (isUpcoming) {
         event.preventDefault();
@@ -1233,10 +1729,17 @@
         return false;
       }
       
+      if (!checkVerification()) {
+        showVerificationModal();
+        return false;
+      }
+      
       loadChannelOnMainScreen({ name, url });
       const mainEl = document.getElementById('mainScreen');
-      if (mainEl) {
+      if (mainEl && typeof mainEl.scrollIntoView === 'function') {
         mainEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
 
@@ -1245,14 +1748,15 @@
       const isUpcoming = isLiveEvent && channel.upcoming;
       const buttonText = isUpcoming ? 'Soon' : (isLiveEvent ? 'Watch Live' : 'Play');
       const buttonClass = isUpcoming ? 'play-button soon-button' : 'play-button';
+      const cardClick = isUpcoming ? '' : `onclick="handleChannelPlay(event, '${channel.url}', '${channel.name}', false)"`;
       
       return `
-        <div class="channel-card" data-index="${index}" onclick="${isUpcoming ? 'return false;' : `handleChannelPlay(event, '${channel.url}', '${channel.name}', false)`}">
+        <div class="channel-card" data-index="${index}" ${cardClick} aria-label="Play ${channel.name} on big screen">
           <div class="channel-logo-container">
             <img src="${channel.logo}" alt="${channel.name}" class="channel-logo" loading="lazy" />
           </div>
           <div class="channel-name">${channel.name}</div>
-          <button class="${buttonClass}" ${isUpcoming ? 'disabled' : ''}>
+          <button class="${buttonClass}" ${isUpcoming ? 'disabled' : ''} onclick="${isUpcoming ? 'return false;' : `handleChannelPlay(event, '${channel.url}', '${channel.name}', false)`}">
             <i class="fas ${isUpcoming ? 'fa-clock' : 'fa-play'}"></i>
             ${buttonText}
           </button>
@@ -1269,6 +1773,138 @@
       sportsGrid.innerHTML = sportsChannels.map((channel, index) => createChannelCard(channel, false, index)).join('');
     }
 
+    // STRICT VERIFICATION SYSTEM
+    function checkVerification() {
+      const verifiedUntil = localStorage.getItem('verified_until');
+      const now = Date.now();
+      return verifiedUntil && parseInt(verifiedUntil) > now;
+    }
+
+    function showVerificationModal() {
+      const modal = document.getElementById('verifyModal');
+      modal.classList.add('active', 'no-close');
+      document.body.style.overflow = 'hidden';
+      
+      // Blur background elements
+      document.getElementById('mainContent').classList.add('blur-background');
+      document.querySelector('header').classList.add('blur-background');
+      document.querySelector('footer').classList.add('blur-background');
+      document.querySelector('.live-counter-container')?.classList.add('blur-background');
+      document.getElementById('telegramPopup').classList.add('blur-background');
+    }
+
+    function hideVerificationModal() {
+      const modal = document.getElementById('verifyModal');
+      modal.classList.remove('active', 'no-close');
+      document.body.style.overflow = 'auto';
+      
+      // Remove blur from background elements
+      document.getElementById('mainContent').classList.remove('blur-background');
+      document.querySelector('header').classList.remove('blur-background');
+      document.querySelector('footer').classList.remove('blur-background');
+      document.querySelector('.live-counter-container')?.classList.remove('blur-background');
+      document.getElementById('telegramPopup').classList.remove('blur-background');
+    }
+
+    function handleVerification() {
+      const verifyButton = document.getElementById('verifyButton');
+      const redirectMessage = document.getElementById('redirectMessage');
+      
+      // Disable button and show processing
+      verifyButton.disabled = true;
+      verifyButton.classList.add('processing');
+      verifyButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+      
+      // Show redirect message
+      redirectMessage.style.display = 'block';
+      
+      // Set verification for 24 hours INSTANTLY
+      setTimeout(() => {
+        const expire = Date.now() + (24 * 60 * 60 * 1000);
+        localStorage.setItem('verified_until', expire.toString());
+        localStorage.setItem('last_verification', Date.now().toString());
+        
+        // Start countdown timer
+        startCountdownTimer();
+        
+        // Redirect immediately to verification link
+        window.location.href = 'https://vplink.in/NwbI';
+      }, 1500);
+    }
+
+    // Enhanced Countdown functions
+    function updateVerificationCountdown() {
+      const verifiedUntil = localStorage.getItem('verified_until');
+      const countdownElement = document.getElementById('verificationCountdown');
+      const countdownText = document.getElementById('countdownText');
+      
+      if (!verifiedUntil) {
+        countdownElement.classList.remove('visible');
+        if (countdownInterval) {
+          clearInterval(countdownInterval);
+          countdownInterval = null;
+        }
+        return;
+      }
+      
+      const now = Date.now();
+      const timeLeft = parseInt(verifiedUntil) - now;
+      
+      if (timeLeft <= 0) {
+        // Countdown ended, show verification modal again
+        countdownElement.classList.remove('visible');
+        localStorage.removeItem('verified_until');
+        showVerificationModal();
+        if (countdownInterval) {
+          clearInterval(countdownInterval);
+          countdownInterval = null;
+        }
+        return;
+      }
+      
+      const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      
+      countdownText.textContent = `Verification: ${hours}h ${minutes}m`;
+      
+      if (hours < 1) {
+        countdownElement.classList.add('danger');
+        countdownElement.classList.remove('warning');
+      } else if (hours < 6) {
+        countdownElement.classList.add('warning');
+        countdownElement.classList.remove('danger');
+      } else {
+        countdownElement.classList.remove('warning', 'danger');
+      }
+      
+      countdownElement.classList.add('visible');
+    }
+
+    function startCountdownTimer() {
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+      }
+      
+      updateVerificationCountdown();
+      countdownInterval = setInterval(updateVerificationCountdown, 60000);
+    }
+
+    // Check if verification is needed on page load
+    function checkInitialVerification() {
+      const verifiedUntil = localStorage.getItem('verified_until');
+      const now = Date.now();
+      
+      if (!verifiedUntil || parseInt(verifiedUntil) <= now) {
+        // Show verification modal if not verified or expired
+        setTimeout(() => {
+          showVerificationModal();
+        }, 1000);
+      } else {
+        // Start countdown if verified
+        startCountdownTimer();
+      }
+    }
+
     // Video Modal functions
     function openVideoModal(title, url) {
       document.getElementById('videoTitle').textContent = title;
@@ -1283,9 +1919,153 @@
       document.body.style.overflow = 'auto';
     }
 
-    // Initialize the page
-    document.addEventListener('DOMContentLoaded', () => {
-      checkAccess();
+    // Countdown logic for upcoming events
+    (function(){
+      function pad(n){ return n.toString().padStart(2,'0'); }
+      function formatDistance(ms){
+        if (ms <= 0) return 'LIVE NOW';
+        const s = Math.floor(ms/1000);
+        const hours = Math.floor(s/3600);
+        const minutes = Math.floor((s%3600)/60);
+        const seconds = s%60;
+        if (hours > 0) return `${hours}h ${pad(minutes)}m ${pad(seconds)}s`;
+        return `${pad(minutes)}m ${pad(seconds)}s`;
+      }
+
+      function updateEventCountdown(){
+        const now = Date.now();
+        let changed = false;
+        
+        liveEvents.forEach(ev => {
+          const unlock = ev.unlockTime ? Number(ev.unlockTime) : 0;
+          const distance = unlock - now;
+
+          const cards = document.querySelectorAll('#liveEventsGrid .channel-card');
+          let card = null;
+          for(const c of cards){
+            const nameEl = c.querySelector('.channel-name');
+            if(!nameEl) continue;
+            if(nameEl.innerText.trim() === ev.name || nameEl.innerText.includes(ev.name)){
+              card = c; break;
+            }
+          }
+          if(!card) return;
+
+          const logoContainer = card.querySelector('.channel-logo-container');
+          let badge = card.querySelector('.countdown-badge, .live-badge');
+          if(!badge){
+            badge = document.createElement('div');
+            badge.className = 'countdown-badge';
+            card.appendChild(badge);
+          }
+
+          let upcomingBadge = logoContainer ? logoContainer.querySelector('.upcoming-badge') : null;
+
+          const button = card.querySelector('.play-button');
+          const icon = button ? button.querySelector('i') : null;
+
+          if(distance <= 0){
+            if(ev.upcoming){
+              ev.upcoming = false;
+              changed = true;
+            }
+            badge.textContent = 'LIVE NOW';
+            badge.classList.remove('countdown-badge');
+            badge.classList.add('live-badge');
+            
+            if(upcomingBadge){
+              upcomingBadge.remove();
+            }
+            
+            if(button){
+              button.classList.remove('soon-button');
+              button.disabled = false;
+              button.style.pointerEvents = 'auto';
+              button.onclick = function(event) { handleChannelPlay(event, ev.url, ev.name, false); };
+              const buttonText = button.childNodes[button.childNodes.length - 1];
+              if(buttonText && buttonText.nodeType === 3) {
+                buttonText.textContent = ' Watch Live';
+              }
+              if(icon) {
+                icon.className = 'fas fa-play';
+              }
+            }
+          } else {
+            badge.classList.remove('live-badge');
+            badge.classList.add('countdown-badge');
+            badge.textContent = formatDistance(distance);
+            ev.upcoming = true;
+            
+            if(!upcomingBadge && logoContainer){
+              upcomingBadge = document.createElement('div');
+              upcomingBadge.className = 'upcoming-badge';
+              upcomingBadge.innerHTML = '<i class="fas fa-calendar"></i> Upcoming';
+              logoContainer.appendChild(upcomingBadge);
+            }
+            
+            if(button){
+              button.classList.add('soon-button');
+              button.disabled = true;
+              button.style.pointerEvents = 'none';
+              button.onclick = function() { return false; };
+              const buttonText = button.childNodes[button.childNodes.length - 1];
+              if(buttonText && buttonText.nodeType === 3) {
+                buttonText.textContent = ' Soon';
+              }
+              if(icon) {
+                icon.className = 'fas fa-clock';
+              }
+            }
+          }
+        });
+      }
+
+      window.addEventListener('load', function(){
+        setTimeout(updateEventCountdown, 100);
+        setInterval(updateEventCountdown, 1000);
+      });
+    })();
+
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+      // Render channels
+      renderChannelsInstant();
+      
+      // Update timestamp
+      updateTimestamp();
+      setInterval(updateTimestamp, 120000);
+
+      // Check initial verification status
+      checkInitialVerification();
+
+      // Video modal close handler
+      document.getElementById('videoModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeVideoModal();
+        }
+      });
+
+      // Prevent closing verification modal by clicking outside
+      document.getElementById('verifyModal').addEventListener('click', function(e) {
+        if (e.target === this && !this.classList.contains('no-close')) {
+          // Do nothing - modal cannot be closed
+        }
+      });
+
+      // Security measures
+      document.addEventListener('contextmenu', e => e.preventDefault());
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || 
+            (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+            (e.ctrlKey && e.shiftKey && e.key === 'J') ||
+            (e.ctrlKey && e.key === 'U')) {
+          e.preventDefault();
+        }
+      });
+
+      // Performance logging
+      const loadTime = performance.now() - startTime;
+      console.log(`Page loaded in ${loadTime.toFixed(2)}ms`);
     });
   </script>
 </body>
